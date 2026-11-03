@@ -41,9 +41,9 @@ def safe_click(d, resource_id=None, text=None, fallback_coords=None, timeout=5):
         if text and d(text=text).wait(timeout=timeout):
             d(text=text).click()
             return
-    except Exception as e:
-        pass
-    
+    except Exception:
+        pass  # locator backend error: fall through to coordinates
+
     if fallback_coords:
         x, y = fallback_coords
         d.click(x, y)

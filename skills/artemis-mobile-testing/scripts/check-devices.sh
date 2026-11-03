@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ARTEMIS Device Health & Status Diagnostic Script
-set -e
+set -euo pipefail
 
 echo "=== Android Device & ADB Diagnostic ==="
 
@@ -28,15 +28,17 @@ fi
 echo "$DEVICES"
 echo ""
 echo "[+] Device architecture & SDK level summary:"
-for serial in $(adb devices | tail -n +2 | awk '{print $1}' | sed '/^$/d'); do
-  STATE=$(adb devices | grep "$serial" | awk '{print $2}')
+# </dev/null stops `adb shell` eating the loop's stdin; tr strips the \r some devices append.
+prop() { adb -s "$1" shell getprop "$2" </dev/null 2>/dev/null | tr -d '\r' || echo "Unknown"; }
+
+adb devices | tail -n +2 | sed '/^$/d' | while read -r serial STATE _; do
   if [ "$STATE" = "device" ]; then
-    MODEL=$(adb -s "$serial" shell getprop ro.product.model 2>/dev/null || echo "Unknown")
-    SDK=$(adb -s "$serial" shell getprop ro.build.version.sdk 2>/dev/null || echo "Unknown")
-    ABI=$(adb -s "$serial" shell getprop ro.product.cpu.abi 2>/dev/null || echo "Unknown")
+    MODEL=$(prop "$serial" ro.product.model)
+    SDK=$(prop "$serial" ro.build.version.sdk)
+    ABI=$(prop "$serial" ro.product.cpu.abi)
     echo "    Device: $serial | Model: $MODEL | SDK: $SDK | ABI: $ABI"
   else
-    echo "    Device: $serial | State: $STATE (Needs authorization or recovery)"
+    echo "    Device: $serial | State: $STATE (see references/troubleshooting.md §2)"
   fi
 done
 echo "=== Diagnostic Complete ==="

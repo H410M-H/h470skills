@@ -1,6 +1,12 @@
 ---
 name: permissioned-github
-description: Guidelines for interacting with GitHub and request permissions from the user when commands fail due to restrictions in the agent environment.
+description: >-
+  Google Antigravity (agy) sandbox rules for the gh CLI and git: which commands are
+  allowed by default, and how to request extra permissions from the user when a gh/git
+  command fails because of agent-environment restrictions. Use when running gh or git
+  inside Antigravity, when a GitHub operation is denied or blocked by the sandbox, or
+  before pushing, opening PRs, or calling the GitHub API from an Antigravity agent. Defer
+  to the host's own GitHub rules when not running in Antigravity.
 ---
 
 # GitHub Skill

@@ -1,6 +1,11 @@
 ---
 name: migrate-workflows
-description: Automatically migrate legacy workflows to modern skills across global and workspace configurations. Scans for existing workflows, creates target SKILL.md files, and safely archives old workflow files.
+description: >-
+  Google Antigravity (agy): automatically migrate deprecated legacy workflow files
+  (.agents/workflows/*.md, _agents/workflows/*.md, and global workflow folders) into
+  modern skills (skills/NAME/SKILL.md), then safely archive the old files. Use when the
+  user asks to migrate, convert, or upgrade workflows to skills, when legacy workflow
+  files are found in a workspace, or when the user types /migrate-workflows.
 ---
 
 # Migrate Workflows to Skills

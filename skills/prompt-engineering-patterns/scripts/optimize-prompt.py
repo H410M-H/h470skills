@@ -6,6 +6,7 @@ Automatically test and optimize prompts using A/B testing and metrics tracking.
 """
 
 import json
+import string
 import time
 from typing import List, Dict, Any
 from dataclasses import dataclass
@@ -48,8 +49,9 @@ class PromptOptimizer:
         def process_test_case(test_case):
             start_time = time.time()
 
-            # Render prompt with test case inputs
-            prompt = prompt_template.format(**test_case.input)
+            # Render prompt with test case inputs. Only {named} fields are substituted, so
+            # literal braces in examples/JSON (e.g. '{"a": 1}') don't crash str.format.
+            prompt = self.render(prompt_template, test_case.input)
 
             # Get LLM response
             response = self.client.complete(prompt)
@@ -95,15 +97,41 @@ class PromptOptimizer:
             'success_rate': fmean(metrics['success_rate'])
         }
 
+    @staticmethod
+    def render(template: str, values: Dict[str, Any]) -> str:
+        """Substitute {name} fields present in ``values``; leave every other brace untouched."""
+        out = []
+        for literal, field, spec, conv in string.Formatter().parse(template):
+            out.append(literal)
+            if field is None:
+                continue
+            if field in values:
+                val = values[field]
+                if conv:
+                    val = {'r': repr, 's': str, 'a': ascii}[conv](val)
+                out.append(format(val, spec or ''))
+            else:
+                out.append('{' + field + ('!' + conv if conv else '') + (':' + spec if spec else '') + '}')
+        return ''.join(out)
+
+    @staticmethod
+    def _normalize(text: str) -> List[str]:
+        """Lower-case and strip punctuation so 'Positive.' matches 'positive'."""
+        table = str.maketrans('', '', string.punctuation)
+        return text.lower().translate(table).split()
+
     def calculate_accuracy(self, response: str, expected: str) -> float:
         """Calculate accuracy score between response and expected output."""
-        # Simple exact match
-        if response.strip().lower() == expected.strip().lower():
+        response_tokens = self._normalize(response)
+        expected_tokens = self._normalize(expected)
+
+        # Exact match (ignoring case, whitespace and punctuation)
+        if response_tokens == expected_tokens:
             return 1.0
 
         # Partial match using word overlap
-        response_words = set(response.lower().split())
-        expected_words = set(expected.lower().split())
+        response_words = set(response_tokens)
+        expected_words = set(expected_tokens)
 
         if not expected_words:
             return 0.0

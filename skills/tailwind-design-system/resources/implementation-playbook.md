@@ -36,6 +36,61 @@ Base styles → Variants → Sizes → States → Overrides
 
 ## Quick Start
 
+> **Which version?** Tailwind **v4** (Jan 2025+) is configured in CSS (`@import "tailwindcss"` + `@theme`).
+> Tailwind **v3** uses `tailwind.config.ts` + `@tailwind` directives. The v4 setup comes first below; the
+> v3 config that follows still applies to v3 projects and shows the same token structure.
+
+### Tailwind v4 (CSS-first)
+
+```css
+/* app.css */
+@import "tailwindcss";
+@plugin "tailwindcss-animate";            /* optional; or tw-animate-css */
+
+/* Class-based dark mode (default is prefers-color-scheme) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+}
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --ring: oklch(0.556 0 0);
+}
+
+/* Map variables to theme tokens → generates bg-primary, text-foreground, rounded-lg, ... */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+```
+
+- Install with `@tailwindcss/vite` (Vite) or `@tailwindcss/postcss` (Next.js/PostCSS). No `content` array: sources are detected automatically; add others with `@source "../packages/ui";`.
+- Migrate v3 projects with `npx @tailwindcss/upgrade`. Renamed: `shadow-sm`→`shadow-xs`, `shadow`→`shadow-sm`, `rounded-sm`→`rounded-xs`, `rounded`→`rounded-sm`, `blur-sm`→`blur-xs`, `outline-none`→`outline-hidden`; `ring` is now 1px (`ring-3` = old default); the default border color is `currentColor`.
+- Container queries are built in: `@container` on the parent, `@md:grid-cols-2` on children.
+- With React 19 the `forwardRef` wrappers in the components below are optional (`ref` is a normal prop).
+
+### Tailwind v3 (config file)
+
 ```typescript
 // tailwind.config.ts
 import type { Config } from 'tailwindcss'

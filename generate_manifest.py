@@ -1,8 +1,15 @@
+#!/usr/bin/env python3
+"""Regenerate skills.json and CATALOG.md from skills/*/SKILL.md frontmatter.
+
+Run from anywhere: paths are resolved relative to this file.
+"""
 import os
 import json
 import re
+import sys
 
-skills_dir = '/data/data/com.termux/files/home/h470skills/skills'
+ROOT = os.path.dirname(os.path.abspath(__file__))
+skills_dir = os.path.join(ROOT, 'skills')
 
 categories_map = {
     'core-agy': {
@@ -10,9 +17,9 @@ categories_map = {
         'description': 'Official builtin Antigravity capabilities, customizations, guides, automations, and plugins.',
         'items': [
             'agy-customizations',
-            'antigravity_guide',
+            'antigravity-guide',
             'automation',
-            'generative_ui',
+            'generative-ui',
             'migrate-workflows',
             'permissioned-github',
             'plugin',
@@ -101,6 +108,13 @@ def get_frontmatter(path):
     if not m:
         return {}, ''
     raw_yaml, body = m.group(1), m.group(2)
+    try:
+        import yaml  # PyYAML handles folded (>-) and quoted scalars correctly
+        data = yaml.safe_load(raw_yaml) or {}
+        return {'name': str(data.get('name', '')).strip(),
+                'description': ' '.join(str(data.get('description', '')).split())}, body
+    except ImportError:
+        pass
     name_m = re.search(r'^name:\s*(.+)$', raw_yaml, re.MULTILINE)
     desc_m = re.search(r'^description:\s*(?:>-\s*)?(.*?)(?:\n[a-zA-Z0-9_-]+:|\Z)', raw_yaml, re.DOTALL | re.MULTILINE)
     name = name_m.group(1).strip() if name_m else ''
@@ -111,14 +125,15 @@ def get_frontmatter(path):
 
 manifest = {
     'name': 'h470skills',
-    'version': '1.0.0',
+    'version': '1.1.0',
     'author': 'h410m-h',
     'description': 'Curated master collection of Google Antigravity (AGY) core skills, power-user capabilities, full-stack playbooks, and codebase memories.',
     'categories': {}
 }
 
+total = sum(len(c['items']) for c in categories_map.values())
 catalog_md = ['# 🚀 h470skills — Master AGY & AI Engineering Skills Catalog\n\n']
-catalog_md.append('> A unified, battle-tested collection of **51 Agent Skills** engineered for Google Antigravity (`agy`), Claude Code, and agentic workflows.\n\n---\n\n')
+catalog_md.append(f'> A unified, battle-tested collection of **{total} Agent Skills** engineered for Google Antigravity (`agy`), Claude Code, and agentic workflows.\n\n---\n\n')
 
 all_categorized = set()
 for cat_id, cat_info in categories_map.items():
@@ -139,6 +154,7 @@ for cat_id, cat_info in categories_map.items():
             meta, _ = get_frontmatter(skill_path)
         desc = meta.get('description', '')
         short_desc = desc if len(desc) < 140 else desc[:137] + '...'
+        short_desc = short_desc.replace('|', '\\|')
         catalog_md.append(f"| [`{s_name}`](./skills/{s_name}/SKILL.md) | `/{s_name}` | {short_desc} |\n")
         manifest['categories'][cat_id]['skills'].append({
             'id': s_name,
@@ -150,13 +166,20 @@ for cat_id, cat_info in categories_map.items():
 
 all_dirs = set(d for d in os.listdir(skills_dir) if not os.path.islink(os.path.join(skills_dir, d)))
 unassigned = all_dirs - all_categorized
+missing = all_categorized - all_dirs
 if unassigned:
-    print('Unassigned skills:', unassigned)
+    print('Unassigned skills (add them to categories_map):', sorted(unassigned))
+if missing:
+    print('Categorised skills with no directory:', sorted(missing))
+if unassigned or missing:
+    sys.exit(1)
 
-with open('/data/data/com.termux/files/home/h470skills/skills.json', 'w', encoding='utf-8') as f:
-    json.dump(manifest, f, indent=2)
+manifest['count'] = total
+with open(os.path.join(ROOT, 'skills.json'), 'w', encoding='utf-8') as f:
+    json.dump(manifest, f, indent=2, ensure_ascii=False)
+    f.write('\n')
 
-with open('/data/data/com.termux/files/home/h470skills/CATALOG.md', 'w', encoding='utf-8') as f:
+with open(os.path.join(ROOT, 'CATALOG.md'), 'w', encoding='utf-8') as f:
     f.writelines(catalog_md)
 
 print('Successfully generated skills.json and CATALOG.md!')

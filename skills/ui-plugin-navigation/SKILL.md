@@ -1,6 +1,11 @@
 ---
 name: ui-plugin-navigation
-description: Discover UI plugin panels relevant to the current task and surface a one-click pill in chat to open (toggle) them in the side pane. Use when a running UI plugin's panel would help with what the user is doing, or right after the user enables a new UI plugin pane and a shortcut to open it is handy.
+description: >-
+  Google Antigravity (agy) only: discover UI plugin panels relevant to the current task
+  and surface a one-click pill in the Antigravity chat to open (toggle) them in the side
+  pane. Use when a running Antigravity UI plugin's panel would help with what the user is
+  doing, or right after the user enables a new UI plugin pane and a shortcut to open it is
+  handy.
 disable-slash-command: true
 ---
 
