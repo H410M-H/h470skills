@@ -1,6 +1,11 @@
 ---
 name: automation
-description: Interactive guide to design and create a scheduled background automation. Use this skill when the user wants to create an automated or recurring scheduled task (e.g. "summarize my emails every morning", "every Monday send me a to-do list"). Also triggered by the /automation slash command.
+description: >-
+  Google Antigravity (agy) only: interactive guide to design and create a scheduled
+  background automation with Antigravity's automation/sidecar tools. Use when the user,
+  working inside Antigravity, wants an automated or recurring scheduled task (e.g.
+  "summarize my emails every morning", "every Monday send me a to-do list"), or types
+  /automation. Not for Claude Code scheduled tasks, cron on a server, or CI schedules.
 metadata:
   icon: schedule
 ---

@@ -5,7 +5,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Termux%20%7C%20Linux%20%7C%20macOS-FF6F00?style=flat-square)](#-installation)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
-**`h470skills`** is a curated, production-grade master repository of **51 Agent Skills** engineered for **Google Antigravity (`agy`)**, Antigravity IDE, Antigravity 2.0, and compatible AI agent runtimes.
+**`h470skills`** is a curated, production-grade master repository of **51 Agent Skills** engineered for **Google Antigravity (`agy`)**, Antigravity IDE, Antigravity 2.0, **Claude Code**, and other Agent Skills–compatible runtimes.
 
 It unifies:
 1. **Google Antigravity Core Builtins**: The complete official system skills (customizations, automations, generative UI, dynamic workflows, and plugins).
@@ -32,7 +32,36 @@ cd ~/h470skills
 
 # Option 3: Hard-copy skills instead of symlinking
 ./install.sh --global --copy
+
+# Claude Code: all projects (~/.claude/skills) or just this project (./.claude/skills)
+./install.sh --claude
+./install.sh --claude-local
+
+# Install only some skills, or preview first
+./install.sh --claude neon postgresql
+./install.sh --claude --dry-run
 ```
+
+> Working **inside this repository** with Claude Code? Nothing to install: `.claude/skills`
+> is a symlink to `skills/`, so every skill is available as a project skill automatically.
+
+### ✅ Validating skills
+
+```bash
+python3 scripts/validate_skills.py          # errors fail, warnings are advisory
+python3 scripts/validate_skills.py --strict # treat warnings as errors
+python3 generate_manifest.py                # rebuild skills.json + CATALOG.md
+```
+
+The validator checks every skill against the Agent Skills spec: frontmatter parses, `name`
+is lowercase-hyphenated and matches its folder, `description` is ≤ 1024 chars and says *when*
+to use the skill, every referenced bundled file exists, and bundled scripts/JSON parse.
+`install.sh` runs it automatically (skip with `--no-validate`).
+
+> **Renamed in 1.1:** `antigravity_guide` → `antigravity-guide` and `generative_ui` →
+> `generative-ui` (Claude Code and the Agent Skills spec require hyphenated, lowercase names
+> that match the folder). Re-run `./install.sh` to refresh links; remove stale
+> `antigravity_guide` / `generative_ui` links from your skills folder.
 
 ---
 
@@ -49,14 +78,14 @@ In Google Antigravity, **skills** are structured runbooks (`skills/<name>/SKILL.
 ## 📦 Skills Inventory by Category
 
 ### 1. ⚙️ Antigravity Core & Builtin Skills
-Official system skills packaged with Google Antigravity:
+Official system skills packaged with Google Antigravity. Their descriptions are explicitly scoped to Antigravity, so in Claude Code (or other hosts) they only activate when you're actually asking about Antigravity:
 
 | Skill | Slash Command | Description |
 | :--- | :--- | :--- |
 | [`agy-customizations`](./skills/agy-customizations/SKILL.md) | `/agy-customizations` | Master reference for the AGY Customization System (rules, skills, plugins, hooks, MCP). |
-| [`antigravity_guide`](./skills/antigravity_guide/SKILL.md) | `/antigravity-guide` | Complete sitemap & docs for Antigravity CLI, IDE, 2.0 Desktop app, and Python SDK. |
+| [`antigravity-guide`](./skills/antigravity-guide/SKILL.md) | `/antigravity-guide` | Complete sitemap & docs for Antigravity CLI, IDE, 2.0 Desktop app, and Python SDK. |
 | [`automation`](./skills/automation/SKILL.md) | `/automation` | Interactive guide to design and create scheduled background automations & cron sidecars. |
-| [`generative_ui`](./skills/generative_ui/SKILL.md) | `/generative_ui` | Render rich interactive HTML widgets inline in chat or as standalone artifacts. |
+| [`generative-ui`](./skills/generative-ui/SKILL.md) | `/generative-ui` | Render rich interactive HTML widgets inline in chat or as standalone artifacts. |
 | [`migrate-workflows`](./skills/migrate-workflows/SKILL.md) | `/migrate-workflows` | Autonomous migration of legacy `.agents/workflows/*.md` to modern skills format. |
 | [`permissioned-github`](./skills/permissioned-github/SKILL.md) | `/permissioned-github` | Authoritative guidelines for using `gh` CLI and Git commands within permission boundaries. |
 | [`plugin`](./skills/plugin/SKILL.md) | `/plugin` | Lifecycle management for AGY plugins (install, enable, disable, package). |
@@ -101,10 +130,10 @@ Full-stack React, App Router, responsive styling, and accessible web interfaces:
 
 | Skill | Slash Command | Description |
 | :--- | :--- | :--- |
-| [`nextjs-app-router-patterns`](./skills/nextjs-app-router-patterns/SKILL.md) | `/nextjs-app-router-patterns` | Next.js 14/15 App Router architecture, Server Components, streaming SSR, parallel routes, Server Actions. |
-| [`react-modernization`](./skills/react-modernization/SKILL.md) | `/react-modernization` | Modern React patterns, migrating Class components/legacy hooks, React 19 transitions, Suspense. |
+| [`nextjs-app-router-patterns`](./skills/nextjs-app-router-patterns/SKILL.md) | `/nextjs-app-router-patterns` | Next.js 14/15/16 App Router architecture (incl. `'use cache'`, `proxy.ts`), Server Components, streaming SSR, parallel routes, Server Actions. |
+| [`react-modernization`](./skills/react-modernization/SKILL.md) | `/react-modernization` | React 16→18→19 upgrades, codemods, class→hooks, React 19 actions/`use()`, React Compiler. |
 | [`react-state-management`](./skills/react-state-management/SKILL.md) | `/react-state-management` | Zustand, TanStack Query, React Context, optimistic updates, server state synchronization. |
-| [`tailwind-design-system`](./skills/tailwind-design-system/SKILL.md) | `/tailwind-design-system` | Design systems, token architecture, Radix/shadcn UI styling, dark mode, responsive fluid typography. |
+| [`tailwind-design-system`](./skills/tailwind-design-system/SKILL.md) | `/tailwind-design-system` | Tailwind v3 & v4 (`@theme`) design systems, token architecture, cva variants, dark mode, v3→v4 migration. |
 | [`ui-ux-designer`](./skills/ui-ux-designer/SKILL.md) | `/ui-ux-designer` | Component design, visual hierarchy, UX heuristics, micro-interactions, responsive accessibility. |
 | [`wcag-audit-patterns`](./skills/wcag-audit-patterns/SKILL.md) | `/wcag-audit-patterns` | Web accessibility auditing, screen reader compatibility, ARIA semantics, color contrast validation. |
 | [`preview`](./skills/preview/SKILL.md) | `/preview` | Interactive visual explanations, slides, diagrams, markdown & self-contained HTML previews. |
@@ -155,11 +184,13 @@ h470skills/
 ├── README.md               # Master guide and inventory
 ├── CATALOG.md              # Detailed categorized catalog with full descriptions
 ├── skills.json             # Machine-readable skill manifest
-├── install.sh              # One-command installer (global or local)
+├── install.sh              # One-command installer (Antigravity or Claude Code, global or local)
 ├── generate_manifest.py    # Automation script to rebuild catalog & manifest
+├── scripts/
+│   └── validate_skills.py  # Spec/lint checks for every skill (run before committing)
 └── skills/                 # All 51 skill runbooks
     ├── agy-customizations/
-    ├── antigravity_guide/
+    ├── antigravity-guide/
     ├── artemis-mobile-testing/
     ├── docker-containerization-expert/
     ├── nextjs-app-router-patterns/

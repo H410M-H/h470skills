@@ -1,6 +1,6 @@
 {
   "name": "h470skills",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "h410m-h",
   "description": "Curated master collection of Google Antigravity (AGY) core skills, power-user capabilities, full-stack playbooks, and codebase memories.",
   "categories": {
@@ -12,55 +12,55 @@
           "id": "agy-customizations",
           "name": "agy-customizations",
           "path": "skills/agy-customizations",
-          "description": "Comprehensive guide and reference for the Antigravity Customization System. Use to explain how customizations work, their loading priority, discovery mechanisms, and to guide the creation of skills, rules, plugins, hooks, and MCP servers."
+          "description": "Google Antigravity (agy): comprehensive reference for the Antigravity Customization System — rules, skills, plugins, hooks, MCP servers, and JSON configs, with their loading priority and discovery roots. Use when the user asks how Antigravity customizations work or load, or wants to create or debug an Antigravity skill, rule, plugin, hook, or MCP server configuration."
         },
         {
-          "id": "antigravity_guide",
+          "id": "antigravity-guide",
           "name": "antigravity-guide",
-          "path": "skills/antigravity_guide",
+          "path": "skills/antigravity-guide",
           "description": "Provides a comprehensive guide, quick reference, and sitemap for Google Antigravity (AGY), including the Antigravity CLI (agy), Antigravity 2.0, Antigravity IDE, Python SDK, slash commands, keybindings, and customizations (skills, rules, MCP, sidecars). Activate this skill when the user asks questions about how to use, configure, or customize Antigravity, AGY, the agy CLI, the Antigravity IDE, or Antigravity 2.0."
         },
         {
           "id": "automation",
           "name": "automation",
           "path": "skills/automation",
-          "description": "Interactive guide to design and create a scheduled background automation. Use this skill when the user wants to create an automated or recurring scheduled task (e.g. \"summarize my emails every morning\", \"every Monday send me a to-do list\"). Also triggered by the /automation slash command."
+          "description": "Google Antigravity (agy) only: interactive guide to design and create a scheduled background automation with Antigravity's automation/sidecar tools. Use when the user, working inside Antigravity, wants an automated or recurring scheduled task (e.g. \"summarize my emails every morning\", \"every Monday send me a to-do list\"), or types /automation. Not for Claude Code scheduled tasks, cron on a server, or CI schedules."
         },
         {
-          "id": "generative_ui",
-          "name": "generative_ui",
-          "path": "skills/generative_ui",
-          "description": "How to render rich interactive HTML widgets inline in the chat or as standalone artifacts. Use this skill when you want to show the user diagrams, data visualizations, interactive controls, educational walkthroughs, or any rich visual content beyond plain text and markdown."
+          "id": "generative-ui",
+          "name": "generative-ui",
+          "path": "skills/generative-ui",
+          "description": "Google Antigravity (agy) only: how to render rich interactive HTML widgets inline in the Antigravity chat or as standalone Antigravity artifacts. Use when running inside Antigravity and you want to show the user diagrams, data visualizations, interactive controls, or educational walkthroughs beyond plain markdown. In other hosts (e.g. Claude Code / claude.ai) prefer that host's own artifact or page tooling."
         },
         {
           "id": "migrate-workflows",
           "name": "migrate-workflows",
           "path": "skills/migrate-workflows",
-          "description": "Automatically migrate legacy workflows to modern skills across global and workspace configurations. Scans for existing workflows, creates target SKILL.md files, and safely archives old workflow files."
+          "description": "Google Antigravity (agy): automatically migrate deprecated legacy workflow files (.agents/workflows/*.md, _agents/workflows/*.md, and global workflow folders) into modern skills (skills/NAME/SKILL.md), then safely archive the old files. Use when the user asks to migrate, convert, or upgrade workflows to skills, when legacy workflow files are found in a workspace, or when the user types /migrate-workflows."
         },
         {
           "id": "permissioned-github",
           "name": "permissioned-github",
           "path": "skills/permissioned-github",
-          "description": "Guidelines for interacting with GitHub and request permissions from the user when commands fail due to restrictions in the agent environment."
+          "description": "Google Antigravity (agy) sandbox rules for the gh CLI and git: which commands are allowed by default, and how to request extra permissions from the user when a gh/git command fails because of agent-environment restrictions. Use when running gh or git inside Antigravity, when a GitHub operation is denied or blocked by the sandbox, or before pushing, opening PRs, or calling the GitHub API from an Antigravity agent. Defer to the host's own GitHub rules when not running in Antigravity."
         },
         {
           "id": "plugin",
           "name": "plugin",
           "path": "skills/plugin",
-          "description": "How to manage and create plugins \u2014 namespaced bundles of skills, agents, rules, MCP servers and hooks that install, enable and disable as a single unit. Use this skill when the user wants to enable, disable, install or uninstall a plugin, when they want to create a new plugin, or when a new customization should be packaged into a plugin rather than left loose. Also triggered by the /plugin slash command. Don't use for the underlying customization system itself \u2014 discovery roots, loading priority, or authoring a standalone skill, agent, rule, hook or MCP server outside a plugin; see the customizations guide skill for those."
+          "description": "Google Antigravity (agy) only: how to manage and create Antigravity plugins — namespaced bundles of skills, agents, rules, MCP servers and hooks under ~/.gemini/config/plugins that install, enable and disable as one unit. Use when the user, in Antigravity, wants to enable, disable, install or uninstall a plugin, create a new plugin, or package a customization as a plugin, or types /plugin. Not for Claude Code plugins/marketplaces, and not for the underlying customization system (discovery roots, loading priority, standalone skills/rules/hooks) — see agy-customizations for that."
         },
         {
           "id": "run-workflow",
           "name": "run-workflow",
           "path": "skills/run-workflow",
-          "description": "How to write and run a dynamic workflow script with the `run_workflow` tool: a Python script that orchestrates many agents with `agent`, `parallel`, `pipeline`, and `phase`. Use when a task splits into many independent or staged pieces of agent work (fan out over files, modules, bugs, or review angles, then aggregate), or when the user asks for a workflow. Don't use for a single delegated task (use a subagent) or for legacy workflow files (see migrate-workflows)."
+          "description": "Google Antigravity (agy) only: how to write and run a dynamic workflow script with Antigravity's run_workflow tool — a Python script that orchestrates many agents with agent, parallel, pipeline, and phase. Use when the run_workflow tool is available and a task splits into many independent or staged pieces of agent work (fan out over files, modules, bugs, or review angles, then aggregate), or when the user asks for a workflow. Don't use for a single delegated task (use a subagent), when run_workflow is not available, or for legacy workflow files (see migrate-workflows)."
         },
         {
           "id": "ui-plugin-navigation",
           "name": "ui-plugin-navigation",
           "path": "skills/ui-plugin-navigation",
-          "description": "Discover UI plugin panels relevant to the current task and surface a one-click pill in chat to open (toggle) them in the side pane. Use when a running UI plugin's panel would help with what the user is doing, or right after the user enables a new UI plugin pane and a shortcut to open it is handy."
+          "description": "Google Antigravity (agy) only: discover UI plugin panels relevant to the current task and surface a one-click pill in the Antigravity chat to open (toggle) them in the side pane. Use when a running Antigravity UI plugin's panel would help with what the user is doing, or right after the user enables a new UI plugin pane and a shortcut to open it is handy."
         }
       ]
     },
@@ -84,7 +84,7 @@
           "id": "lms-android-codebase",
           "name": "lms-android-codebase",
           "path": "skills/lms-android-codebase",
-          "description": "> Comprehensive codebase memory for LMS-android (MSNS Mobile ERP & Capacitor App). Use this skill to recall Android native build pipelines, Capacitor 8 plugins, offline SQLite caching, barcode scanning, push notifications, release signing, and mobile-specific architecture."
+          "description": "Comprehensive codebase memory for LMS-android (MSNS Mobile ERP & Capacitor App). Use this skill to recall Android native build pipelines, Capacitor 8 plugins, offline SQLite caching, barcode scanning, push notifications, release signing, and mobile-specific architecture."
         }
       ]
     },
@@ -114,7 +114,7 @@
           "id": "postgresql",
           "name": "postgresql",
           "path": "skills/postgresql",
-          "description": "Design a PostgreSQL-specific schema. Covers best-practices, data types, indexing, constraints, performance patterns, and advanced features"
+          "description": "Design PostgreSQL-specific schemas: data types, primary keys, constraints, indexing (B-tree, GIN, BRIN, partial, expression), partitioning, JSONB, row-level security, and safe migration patterns. Use when designing or reviewing PostgreSQL tables, choosing column types or constraints, planning indexes or partitions, or writing Postgres DDL/migrations. Not for DB-agnostic modeling or pure query tuning (see database-optimizer)."
         },
         {
           "id": "fastapi-pro",
@@ -174,13 +174,13 @@
           "id": "nextjs-app-router-patterns",
           "name": "nextjs-app-router-patterns",
           "path": "skills/nextjs-app-router-patterns",
-          "description": "Master Next.js 14+ App Router with Server Components, streaming, parallel routes, and advanced data fetching. Use when building Next.js applications, implementing SSR/SSG, or optimizing React Server Components."
+          "description": "Next.js App Router patterns for Next.js 14, 15 and 16: Server Components, client islands, streaming with Suspense, parallel and intercepting routes, Server Actions, caching and revalidation (including Next 15 uncached-by-default fetch and Next 16 'use cache' / Cache Components / proxy.ts). Use when building or reviewing Next.js App Router code, migrating from the Pages Router, upgrading between Next.js majors, or debugging data fetching, caching, or rendering behavior."
         },
         {
           "id": "react-modernization",
           "name": "react-modernization",
           "path": "skills/react-modernization",
-          "description": "Upgrade React applications to latest versions, migrate from class components to hooks, and adopt concurrent features. Use when modernizing React codebases, migrating to React Hooks, or upgrading to latest React versions."
+          "description": "Upgrade React applications across majors (16/17 → 18 → 19), migrate class components to hooks, adopt concurrent features (transitions, Suspense) and React 19 APIs (ref as prop, use(), useActionState, useOptimistic, form actions), and apply official codemods and the React Compiler. Use when modernizing a React codebase, fixing React 19 upgrade breakages, or converting legacy class components."
         },
         {
           "id": "react-state-management",
@@ -192,7 +192,7 @@
           "id": "tailwind-design-system",
           "name": "tailwind-design-system",
           "path": "skills/tailwind-design-system",
-          "description": "Build scalable design systems with Tailwind CSS, design tokens, component libraries, and responsive patterns. Use when creating component libraries, implementing design systems, or standardizing UI patterns."
+          "description": "Build scalable design systems with Tailwind CSS v3 or v4: semantic design tokens (v4 @theme CSS variables or v3 config), cva component variants, dark mode, responsive and container-query layouts, and accessible components. Use when creating a component library, implementing design tokens or theming, standardizing UI patterns, or migrating a project from Tailwind v3 to v4."
         },
         {
           "id": "ui-ux-designer",
@@ -204,13 +204,13 @@
           "id": "wcag-audit-patterns",
           "name": "wcag-audit-patterns",
           "path": "skills/wcag-audit-patterns",
-          "description": "Conduct WCAG 2.2 accessibility audits with automated testing, manual verification, and remediation guidance. Use when auditing websites for accessibility, fixing WCAG violations, or implementing accessible design patterns."
+          "description": "Conduct WCAG 2.2 AA accessibility audits combining automated scans (axe, Lighthouse) with manual keyboard, screen-reader, zoom and contrast checks, and produce findings mapped to success criteria with remediation guidance. Use when auditing a site or component for accessibility, fixing WCAG violations, implementing accessible components, or preparing evidence for ADA, Section 508, or European Accessibility Act reviews."
         },
         {
           "id": "preview",
           "name": "preview",
           "path": "skills/preview",
-          "description": "View files/directories OR generate visual explanations, slides, diagrams (Markdown or self-contained HTML)."
+          "description": "View files/directories in a readable form OR generate visual explanations — explainers, slide decks, Mermaid/ASCII diagrams, diff reviews, plan reviews, and recaps — as Markdown or a self-contained HTML page. Use when the user runs /preview, asks to preview or visualize a file or folder, or wants a topic explained with slides, a diagram, or an HTML visual."
         }
       ]
     },
@@ -282,7 +282,7 @@
           "id": "code-refactoring-refactor-clean",
           "name": "code-refactoring-refactor-clean",
           "path": "skills/code-refactoring-refactor-clean",
-          "description": "You are a code refactoring expert specializing in clean code principles, SOLID design patterns, and modern software engineering best practices. Analyze and refactor the provided code to improve its quality, maintainability, and performance."
+          "description": "Refactor messy or hard-to-maintain code into clean, testable, SOLID code without changing behavior: detect code smells, plan incremental refactors, apply them in small verified steps, and report impact. Use when the user asks to refactor, clean up, simplify, decouple, or reduce duplication/complexity in existing code, or to prepare a module for new features safely. Not for one-line fixes or pure documentation."
         },
         {
           "id": "architecture-patterns",
@@ -324,19 +324,19 @@
           "id": "emochipk-codebase",
           "name": "emochipk-codebase",
           "path": "skills/emochipk-codebase",
-          "description": "> Comprehensive codebase memory for the Executive Mochi (emochipk) e-commerce platform. Use this skill to recall the architecture, database schema, routing, tRPC routers, courier APIs, Cloudflare R2 media policies, Google Merchant Center integrations, payment gateway architecture, and tech stack without having to scan the repository."
+          "description": "Comprehensive codebase memory for the Executive Mochi (emochipk) e-commerce platform. Use this skill to recall the architecture, database schema, routing, tRPC routers, courier APIs, Cloudflare R2 media policies, Google Merchant Center integrations, payment gateway architecture, and tech stack without having to scan the repository."
         },
         {
           "id": "msns-build-codebase",
           "name": "msns-build-codebase",
           "path": "skills/msns-build-codebase",
-          "description": "> Comprehensive codebase memory for the msns-build LMS/ERP project. Use this skill to recall the architecture, database schema, routing, API endpoints, component organization, and tech stack without having to scan the repository."
+          "description": "Comprehensive codebase memory for the msns-build LMS/ERP project. Use this skill to recall the architecture, database schema, routing, API endpoints, component organization, and tech stack without having to scan the repository."
         },
         {
           "id": "msns-home-codebase",
           "name": "msns-home-codebase",
           "path": "skills/msns-home-codebase",
-          "description": "> Comprehensive codebase memory for the msns-home public website project. Use this skill to recall the architecture, routing, SEO, API endpoints, S3 integrations, and tech stack without having to scan the repository."
+          "description": "Comprehensive codebase memory for the msns-home public website project. Use this skill to recall the architecture, routing, SEO, API endpoints, S3 integrations, and tech stack without having to scan the repository."
         },
         {
           "id": "syncbay-codebase",
@@ -346,5 +346,6 @@
         }
       ]
     }
-  }
+  },
+  "count": 51
 }

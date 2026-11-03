@@ -1,6 +1,11 @@
 ---
 argument-hint: '[path] OR [--html] --explain|--slides|--diagram|--ascii [topic] OR --html --diff|--plan-review|--recap'
-description: View files/directories OR generate visual explanations, slides, diagrams (Markdown or self-contained HTML).
+description: >-
+  View files/directories in a readable form OR generate visual explanations — explainers,
+  slide decks, Mermaid/ASCII diagrams, diff reviews, plan reviews, and recaps — as
+  Markdown or a self-contained HTML page. Use when the user runs /preview, asks to preview
+  or visualize a file or folder, or wants a topic explained with slides, a diagram, or an
+  HTML visual.
 metadata:
     author: claudekit
     github-path: preview

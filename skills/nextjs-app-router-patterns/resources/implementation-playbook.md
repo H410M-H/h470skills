@@ -494,6 +494,10 @@ export default async function ProductPage({ params }: Props) {
 
 ## Caching Strategies
 
+> **Version check first.** Next.js 14 cached `fetch` by default. Next.js 15 flipped it:
+> `fetch` and GET Route Handlers are **uncached unless you opt in**. Next.js 16 adds
+> Cache Components (`'use cache'`) as the recommended model. See "Next.js 16 caching" below.
+
 ### Data Cache
 
 ```typescript
@@ -520,6 +524,44 @@ export async function updateProduct(id: string, data: ProductData) {
 }
 ```
 
+### Next.js 16 caching (Cache Components)
+
+```typescript
+// next.config.ts
+const nextConfig = { cacheComponents: true }
+export default nextConfig
+```
+
+```typescript
+// Cache a data function (or a whole component / page) explicitly
+import { cacheLife, cacheTag } from 'next/cache'
+
+export async function getProducts() {
+  'use cache'
+  cacheLife('hours')        // built-in profiles: seconds, minutes, hours, days, weeks, max
+  cacheTag('products')
+  return db.product.findMany()
+}
+```
+
+```typescript
+'use server'
+import { revalidateTag, updateTag } from 'next/cache'
+
+export async function updateProduct(id: string, data: ProductData) {
+  await db.product.update({ where: { id }, data })
+  updateTag('products')              // read-your-writes: the user sees fresh data immediately
+}
+
+export async function onWebhook() {
+  revalidateTag('products', 'max')   // Next 16: second argument (cacheLife profile) is required
+}
+```
+
+Other Next.js 16 changes: `middleware.ts` → `proxy.ts` (export `proxy`, Node.js runtime),
+Turbopack is the default for `next dev` and `next build`, and sync access to
+`params`/`searchParams`/`cookies()`/`headers()` has been removed (always `await`).
+
 ## Best Practices
 
 ### Do's
@@ -530,7 +572,7 @@ export async function updateProduct(id: string, data: ProductData) {
 - **Use Server Actions** - For mutations with progressive enhancement
 
 ### Don'ts
-- **Don't pass serializable data** - Server → Client boundary limitations
+- **Don't pass non-serializable data** (functions, class instances) across the Server → Client boundary
 - **Don't use hooks in Server Components** - No useState, useEffect
 - **Don't fetch in Client Components** - Use Server Components or React Query
 - **Don't over-nest layouts** - Each layout adds to the component tree

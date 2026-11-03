@@ -1,6 +1,11 @@
 ---
-name: generative_ui
-description: How to render rich interactive HTML widgets inline in the chat or as standalone artifacts. Use this skill when you want to show the user diagrams, data visualizations, interactive controls, educational walkthroughs, or any rich visual content beyond plain text and markdown.
+name: generative-ui
+description: >-
+  Google Antigravity (agy) only: how to render rich interactive HTML widgets inline in the
+  Antigravity chat or as standalone Antigravity artifacts. Use when running inside
+  Antigravity and you want to show the user diagrams, data visualizations, interactive
+  controls, or educational walkthroughs beyond plain markdown. In other hosts (e.g. Claude
+  Code / claude.ai) prefer that host's own artifact or page tooling.
 ---
 
 # Generative UI

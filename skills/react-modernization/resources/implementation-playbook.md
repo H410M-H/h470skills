@@ -18,7 +18,7 @@ Master React version upgrades, class to hooks migration, concurrent features ado
 
 ## Version Upgrade Path
 
-### React 16 → 17 → 18
+### React 16 → 17 → 18 → 19
 
 **Breaking Changes by Version:**
 
@@ -34,6 +34,65 @@ Master React version upgrades, class to hooks migration, concurrent features ado
 - Strict Mode changes (double invocation)
 - New root API
 - Suspense on server
+
+**React 19:** see the "React 18 → 19" section below.
+
+### React 18 → 19
+
+Upgrade to **18.3** first and fix every warning it prints, then run:
+
+```bash
+npx codemod@latest react/19/migration-recipe
+npx types-react-codemod@latest preset-19 ./src   # TypeScript projects
+```
+
+**Removed in React 19:** `ReactDOM.render` / `hydrate` (use `createRoot` / `hydrateRoot`),
+`unmountComponentAtNode`, `findDOMNode`, string refs, legacy context (`contextTypes`),
+`propTypes` checks, `defaultProps` on function components, `react-test-renderer/shallow`.
+The new JSX transform is required.
+
+**New in React 19:**
+
+```tsx
+// ref is a regular prop: forwardRef is no longer needed
+function Input({ ref, ...props }: React.ComponentProps<'input'>) {
+  return <input ref={ref} {...props} />
+}
+
+// Context as provider
+<ThemeContext value="dark">{children}</ThemeContext>
+
+// Actions + useActionState (replaces useFormState) + useFormStatus
+function UpdateName() {
+  const [error, submitAction, isPending] = useActionState(
+    async (_prev: string | null, formData: FormData) => {
+      const err = await updateName(formData.get('name') as string)
+      return err ?? null
+    },
+    null,
+  )
+  return (
+    <form action={submitAction}>
+      <input name="name" />
+      <button disabled={isPending}>Save</button>
+      {error && <p role="alert">{error}</p>}
+    </form>
+  )
+}
+
+// Optimistic UI
+const [optimisticTodos, addOptimistic] = useOptimistic(todos, (s, t: Todo) => [...s, t])
+
+// use(): read a promise (inside Suspense) or a context conditionally
+const comments = use(commentsPromise)
+```
+
+Also new: `<title>`, `<meta>` and `<link>` rendered anywhere are hoisted to `<head>`,
+ref callbacks can return a cleanup function, and hydration errors show a single diff.
+
+**React Compiler** (stable 1.0) memoizes automatically. Adopt it with
+`babel-plugin-react-compiler` (or your framework's flag), then remove manual
+`useMemo`/`useCallback`/`memo` only where profiling confirms it's safe.
 
 ## Class to Hooks Migration
 

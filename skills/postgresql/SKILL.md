@@ -1,6 +1,12 @@
 ---
 name: postgresql
-description: Design a PostgreSQL-specific schema. Covers best-practices, data types, indexing, constraints, performance patterns, and advanced features
+description: >-
+  Design PostgreSQL-specific schemas: data types, primary keys, constraints, indexing
+  (B-tree, GIN, BRIN, partial, expression), partitioning, JSONB, row-level security, and
+  safe migration patterns. Use when designing or reviewing PostgreSQL tables, choosing
+  column types or constraints, planning indexes or partitions, or writing Postgres
+  DDL/migrations. Not for DB-agnostic modeling or pure query tuning (see
+  database-optimizer).
 ---
 
 # PostgreSQL Table Design 

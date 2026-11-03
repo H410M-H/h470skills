@@ -1,6 +1,13 @@
 ---
 name: plugin
-description: How to manage and create plugins — namespaced bundles of skills, agents, rules, MCP servers and hooks that install, enable and disable as a single unit. Use this skill when the user wants to enable, disable, install or uninstall a plugin, when they want to create a new plugin, or when a new customization should be packaged into a plugin rather than left loose. Also triggered by the /plugin slash command. Don't use for the underlying customization system itself — discovery roots, loading priority, or authoring a standalone skill, agent, rule, hook or MCP server outside a plugin; see the customizations guide skill for those.
+description: >-
+  Google Antigravity (agy) only: how to manage and create Antigravity plugins — namespaced
+  bundles of skills, agents, rules, MCP servers and hooks under ~/.gemini/config/plugins
+  that install, enable and disable as one unit. Use when the user, in Antigravity, wants
+  to enable, disable, install or uninstall a plugin, create a new plugin, or package a
+  customization as a plugin, or types /plugin. Not for Claude Code plugins/marketplaces,
+  and not for the underlying customization system (discovery roots, loading priority,
+  standalone skills/rules/hooks) — see agy-customizations for that.
 ---
 
 # Plugins

@@ -1,9 +1,11 @@
 ---
 name: agy-customizations
 description: >-
-  Comprehensive guide and reference for the Antigravity Customization System.
-  Use to explain how customizations work, their loading priority, discovery mechanisms,
-  and to guide the creation of skills, rules, plugins, hooks, and MCP servers.
+  Google Antigravity (agy): comprehensive reference for the Antigravity Customization
+  System — rules, skills, plugins, hooks, MCP servers, and JSON configs, with their
+  loading priority and discovery roots. Use when the user asks how Antigravity
+  customizations work or load, or wants to create or debug an Antigravity skill, rule,
+  plugin, hook, or MCP server configuration.
 ---
 
 # Antigravity Customization System Guide
